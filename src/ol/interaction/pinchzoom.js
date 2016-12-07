@@ -29,6 +29,13 @@ ol.interaction.PinchZoom = function(opt_options) {
 
   /**
    * @private
+   * @type {boolean}
+   */
+  this.keepFractionalZoomLevel_ = options.keepFractionalZoomLevel ?
+options.keepFractionalZoomLevel : false;
+
+  /**
+   * @private
    * @type {ol.Coordinate}
    */
   this.anchor_ = null;
@@ -111,13 +118,15 @@ ol.interaction.PinchZoom.handleUpEvent_ = function(mapBrowserEvent) {
     var map = mapBrowserEvent.map;
     var view = map.getView();
     view.setHint(ol.View.Hint.INTERACTING, -1);
-    var resolution = view.getResolution();
-    // Zoom to final resolution, with an animation, and provide a
-    // direction not to zoom out/in if user was pinching in/out.
-    // Direction is > 0 if pinching out, and < 0 if pinching in.
-    var direction = this.lastScaleDelta_ - 1;
-    ol.interaction.Interaction.zoom(map, view, resolution,
-        this.anchor_, this.duration_, direction);
+    if (!this.keepFractionalZoomLevel_) {
+      var resolution = view.getResolution();
+      // Zoom to final resolution, with an animation, and provide a
+      // direction not to zoom out/in if user was pinching in/out.
+      // Direction is > 0 if pinching out, and < 0 if pinching in.
+      var direction = this.lastScaleDelta_ - 1;
+      ol.interaction.Interaction.zoom(map, view, resolution,
+          this.anchor_, this.duration_, direction);
+    }
     return false;
   } else {
     return true;
