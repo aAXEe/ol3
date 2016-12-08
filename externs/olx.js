@@ -3104,6 +3104,15 @@ olx.interaction.PinchZoomOptions;
  */
 olx.interaction.PinchZoomOptions.prototype.duration;
 
+/**
+ * `true`to keep the zoom at an fractional number;
+ * `false` to zoom to next whole-number zoom after the pinch completes.
+ * Default is `false`.
+ * @type {boolean|undefined}
+ * @api
+ */
+olx.interaction.PinchZoomOptions.prototype.keepFractionalZoomLevel;
+
 
 /**
  * @typedef {{handleDownEvent: (function(ol.MapBrowserPointerEvent):boolean|undefined),
@@ -7613,7 +7622,7 @@ olx.view.FitOptions.prototype.maxZoom;
 
 
 /**
- * The duration of the animation in milliseconds. By default, there is no 
+ * The duration of the animation in milliseconds. By default, there is no
  * animations.
  * @type {number|undefined}
  * @api
